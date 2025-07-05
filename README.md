@@ -11,8 +11,7 @@ One-click sort: Automatically organize files into folders by type
 📦 Installation
 Clone the repository
 
-git clone https://github.com/<your-username>/file-organizer.git
-cd file-organizer
+git clone https://github.com/Jcreeper23/File-Organizer.git
 
 Install required packages
 This app uses only Python’s standard library, so no external dependencies are required.
