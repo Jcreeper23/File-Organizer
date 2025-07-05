@@ -15,11 +15,9 @@ class FileOrganizer(tk.Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        # Title Label
         title = tk.Label(self, text="Jcreepers File Organizer", font=("Arial", 24, "bold"), bg="#2e2e2e", fg="white")
         title.pack(pady=10)
 
-        # Drive Selection
         drive_frame = tk.Frame(self, bg="#2e2e2e")
         drive_frame.pack(pady=5)
         tk.Label(drive_frame, text="Select Drive:", font=("Arial", 14), bg="#2e2e2e", fg="white").pack(side=tk.LEFT, padx=5)
@@ -30,7 +28,6 @@ class FileOrganizer(tk.Tk):
         drive_dropdown.current(0)
         drive_dropdown.pack(side=tk.LEFT)
 
-        # File Types
         type_frame = tk.Frame(self, bg="#2e2e2e")
         type_frame.pack(pady=5)
         tk.Label(type_frame, text="File Types:", font=("Arial", 14), bg="#2e2e2e", fg="white").pack(side=tk.LEFT, padx=5)
@@ -39,7 +36,6 @@ class FileOrganizer(tk.Tk):
         self.types_entry.insert(0, "pdf,png,rar")
         self.types_entry.pack(side=tk.LEFT)
 
-        # Buttons
         button_frame = tk.Frame(self, bg="#2e2e2e")
         button_frame.pack(pady=5)
 
@@ -49,7 +45,6 @@ class FileOrganizer(tk.Tk):
         sort_btn = tk.Button(button_frame, text="Sort Files", font=("Arial", 14), bg="#3a3a3a", fg="white", command=self.sort_files)
         sort_btn.pack(side=tk.LEFT, padx=10)
 
-        # Treeview Frame
         tree_frame = tk.Frame(self)
         tree_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
 
@@ -63,11 +58,9 @@ class FileOrganizer(tk.Tk):
         tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
         self.tree.configure(yscrollcommand=tree_scroll.set)
 
-        # File Path Display Box
         self.path_display = tk.Entry(self, font=("Arial", 12), bg="#1e1e1e", fg="white")
         self.path_display.pack(side=tk.TOP, fill=tk.X, padx=10, pady=5)
 
-        # Found Files List
         text_frame = tk.Frame(self, bg="#2e2e2e")
         text_frame.pack(side=tk.RIGHT, expand=True, fill=tk.BOTH, padx=10, pady=10)
 
@@ -95,7 +88,6 @@ class FileOrganizer(tk.Tk):
         root_node = self.tree.insert('', 'end', text=drive, open=True, values=(drive, "directory"))
 
         for root, dirs, files in os.walk(drive, topdown=True):
-            # Skip protected system folders
             dirs[:] = [d for d in dirs if not d.startswith('$') and 'windows' not in d.lower()]
             
             parent_node = self.find_parent_node(root, root_node)
@@ -121,7 +113,6 @@ class FileOrganizer(tk.Tk):
         self.text_area.insert(tk.END, f"\nScan complete. {len(self.found_files)} files found.\n")
 
     def find_parent_node(self, path, root_node):
-        # Find parent node in treeview for current path
         parts = os.path.relpath(path, self.drive_var.get()).split(os.sep)
         node = root_node
         for part in parts:
@@ -152,7 +143,7 @@ class FileOrganizer(tk.Tk):
             return
 
         for file_path in self.found_files:
-            ext = os.path.splitext(file_path)[1][1:]  # get extension without dot
+            ext = os.path.splitext(file_path)[1][1:]
             dest_dir = os.path.join(target_folder, ext.upper())
             os.makedirs(dest_dir, exist_ok=True)
             try:
